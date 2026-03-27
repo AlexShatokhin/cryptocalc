@@ -24,7 +24,9 @@
     "react-textarea-autosize": "^8.5.9",
     "save-dev": "^0.0.1-security",
     "tailwind-merge": "^3.4.1",
-    "tailwindcss": "^4.1.18"
+    "tailwind-scrollbar-hide": "^4.0.0",
+    "tailwindcss": "^4.1.18",
+    "wouter": "^3.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
