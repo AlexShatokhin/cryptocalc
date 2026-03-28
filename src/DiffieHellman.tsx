@@ -1,14 +1,31 @@
 import { ArrowLeft } from "lucide-react"
 import { DiffieHellmanChips } from "./components/diffie-hellman-chips/DiffieHellmanChips"
 import { useState } from "react";
-
+import { Input } from "./shared/input";
+import { SecretKeyChips } from "./components/diffie-hellman-chips/SecretKeyChips";
+import { Button } from "./shared/button";
+import { diffieHellman } from "./components/operation/utils/diffie-hellman";
 
 export const DiffieHellman = () => {
     const [openKeyP, setOpenKeyP] = useState<number | null>(null);
     const [openKeyG, setOpenKeyG] = useState<number | null>(null);
+    const [secretKeyA, setSecretKeyA] = useState<number | null>(null);
+    const [secretKeyB, setSecretKeyB] = useState<number | null>(null);
+    const [openKeyActiveChip, setOpenKeyActiveChip] = useState("0");
+    const [secretKeyActiveChip, setSecretKeyActiveChip] = useState("0");
+
+    const [result, setResult] = useState<{A: number, B: number, s: number} | null>(null);
 
     const handleOpenKeyPChange = (value: number | null) => setOpenKeyP(value)
     const handleOpenKeyGChange = (value: number | null) => setOpenKeyG(value)
+
+    const handleSecretKeyAChange = (value: number | null) => setSecretKeyA(value)
+    const handleSecretKeyBChange = (value: number | null) => setSecretKeyB(value)
+
+    const handleCalculate = () => {
+        const res = diffieHellman(openKeyP, openKeyG, secretKeyA, secretKeyB);
+        setResult(res === null ? res : res)
+    }
 
     return (
         <section className="px-2">
@@ -20,11 +37,58 @@ export const DiffieHellman = () => {
                 <div></div>
             </div>
             <div>
-                <DiffieHellmanChips onChangeP={handleOpenKeyPChange} onChangeG={handleOpenKeyGChange} />
-                <div>
-                    <p>p = {openKeyP}</p>
-                    <p>g = {openKeyG}</p>
+                <DiffieHellmanChips
+                    title="Параметры сервера"
+                    chip={openKeyActiveChip}
+                    setActiveChip={setOpenKeyActiveChip} 
+                    onChangeP={handleOpenKeyPChange} 
+                    onChangeG={handleOpenKeyGChange} />
+                <div className="text-xl flex gap-2 flex-col">
+                    <p className="h-8">p = {openKeyActiveChip === "0" ? 
+                        <Input 
+                            className="w-20 text-center"
+                            type="text" 
+                            placeholder="11" 
+                            onChange={(e) => handleOpenKeyPChange(e.target.value ? parseInt(e.target.value) : null)} />
+                        : openKeyP}
+                    </p>
+                    
+                    <p className="h-8">g = {openKeyActiveChip === "0" ? 
+                        <Input 
+                            className="w-20 text-center"
+                            type="text" 
+                            placeholder="17" 
+                            onChange={(e) => handleOpenKeyGChange(e.target.value ? parseInt(e.target.value) : null)} /> : openKeyG}
+                    </p>
                 </div>
+            </div>    
+            <div className="mt-2">
+                <SecretKeyChips
+                    title="Параметры закрытых ключей"
+                    chip={secretKeyActiveChip}
+                    setActiveChip={setSecretKeyActiveChip} 
+                    onChangeA={handleSecretKeyAChange} 
+                    onChangeB={handleSecretKeyBChange} />
+                <div className="text-xl flex gap-2 flex-col">
+                    <p className="h-8 text-red-400">a = {secretKeyActiveChip === "0" ? 
+                        <Input 
+                            className="w-20 text-center"
+                            type="text" 
+                            placeholder="13" 
+                            onChange={(e) => handleSecretKeyAChange(e.target.value ? parseInt(e.target.value) : null)} />
+                        : secretKeyA}
+                    </p>
+                    
+                    <p className="h-8 text-blue-400">b = {secretKeyActiveChip === "0" ? 
+                        <Input 
+                            className="w-20 text-center"
+                            type="text" 
+                            placeholder="19" 
+                            onChange={(e) => handleSecretKeyBChange(e.target.value ? parseInt(e.target.value) : null)} /> : secretKeyB}
+                    </p>
+                </div>  
+                <Button className="mt-2" onClick={handleCalculate}>Вычислить</Button>
+                {result && <div>{`A: ${result.A}\nB: ${result.B}\ns: ${result.s}`}</div>}
             </div>
         </section>
     )

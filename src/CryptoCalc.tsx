@@ -12,7 +12,7 @@ export const CryptoCalc = () => {
       const [isShowUpdateDialog, setIsShowUpdateDialog] = useState(false);
     
       return (
-        <section className='relative h-screen px-2'>
+        <section className='relative h-screen'>
             <UpdateDialog show={isShowUpdateDialog} toggleDialog={(val) => setIsShowUpdateDialog(typeof val === 'boolean' ? val : !isShowUpdateDialog)} />
             <Header
               toggleDialog={() => setIsShowUpdateDialog(pr => !pr)}
@@ -23,7 +23,7 @@ export const CryptoCalc = () => {
             {operation === Operation.ModInverse && <ModInverse />}
             {operation === Operation.GCD && <GCD />}
 
-            <div className='absolute bottom-4'>
+            <div className='absolute bottom-4 px-2'>
                 <div>Алгоритмы:</div>
                 <div className='my-2'>
                     <Link to="/diffie-hellman" className="text-foreground bg-primary/20 p-2 px-4 rounded-full text-sm">
