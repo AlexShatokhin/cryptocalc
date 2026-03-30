@@ -9,7 +9,7 @@ import {
 } from "@/shared/alert-dialog"
 import { useEffect } from "react"
 
-const VERSION = "1.6.0";
+const VERSION = "1.7.0";
 
 interface UpdateDialogProps {
   show: boolean;
