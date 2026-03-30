@@ -19,6 +19,8 @@ export const DiffieHellman = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null)  
 
     const [result, setResult] = useState<{A: number, B: number, s: number} | null>(null);
+    const [animatedResult, setAnimatedResult] = useState<{A: number, B: number, s: number} | null>(null);
+    const [isAnimating, setIsAnimating] = useState(false);
 
     useEffect(() => {
         if(typeof errorMessage === "string")
@@ -58,11 +60,39 @@ export const DiffieHellman = () => {
         }         
 
         const res = diffieHellman(openKeyP, openKeyG, secretKeyA, secretKeyB);
-        setResult(res === null ? res : res)
+        if (res) {
+            setResult(res); 
+            animateResult(res);
+        }
     }
 
+    const animateResult = (finalResult: {A: number, B: number, s: number}) => {
+        setIsAnimating(true);
+
+        let iterations = 0;
+        const maxIterations = 20;
+
+        const interval = setInterval(() => {
+            setAnimatedResult({
+                A: Math.floor(Math.random() * finalResult.A + 1),
+                B: Math.floor(Math.random() * finalResult.B + 1),
+                s: Math.floor(Math.random() * finalResult.s + 1),
+            });
+
+            iterations++;
+
+            if (iterations >= maxIterations) {
+                clearInterval(interval);
+                setAnimatedResult(finalResult);
+                setIsAnimating(false);
+            }
+        }, 100);
+    };
+
+    const display = isAnimating ? animatedResult : result;
+
     return (
-        <section className="px-2">
+        <section className="px-2 pb-4">
             <div className="py-4 flex justify-between items-center">
                 <div>
                     <ArrowLeft className="cursor-pointer" onClick={() => window.history.back()} />
@@ -122,7 +152,38 @@ export const DiffieHellman = () => {
                     </p>
                 </div>  
                 <Button className="mt-6" onClick={handleCalculate}>Вычислить</Button>
-                {result && <div>{`A: ${result.A}\nB: ${result.B}\ns: ${result.s}`}</div>}
+                {display && (
+                    <div className="mt-6 p-4 rounded-2xl bg-zinc-900 border border-zinc-800 shadow-sm">
+                        <h2 className="text-lg font-semibold mb-3">
+                            Результат
+                        </h2>
+
+                        <div className="flex flex-col gap-2 text-base">
+                            <div className="flex justify-between">
+                                <span className="text-zinc-400">A</span>
+                                <span className="font-mono text-green-400">
+                                    {display.A}
+                                </span>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <span className="text-zinc-400">B</span>
+                                <span className="font-mono text-blue-400">
+                                    {display.B}
+                                </span>
+                            </div>
+
+                            <div className="h-px bg-zinc-800 my-2" />
+
+                            <div className="flex justify-between">
+                                <span className="text-zinc-400">Секрет</span>
+                                <span className="font-mono text-yellow-400 text-lg">
+                                    {display.s}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                )}                
             </div>
         </section>
     )
