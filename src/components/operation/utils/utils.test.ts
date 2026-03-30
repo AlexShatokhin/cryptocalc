@@ -4,6 +4,7 @@ import { calculate as calculateInverse } from "./mod-inverse";
 import { getDividers } from "./get-dividers";
 import { gcd } from "./gcd";
 import { mod } from "./mod";
+import { diffieHellman } from "./diffie-hellman";
 
 describe("mod", () => {
     test("calculates mod with positive numbers", () => {
@@ -127,3 +128,47 @@ describe("gcd", () => {
     });
 })
 
+
+describe("diffie-hellman", () => {
+    test("should compute correct public keys and shared secret (basic example)", () => {
+        expect(diffieHellman(23, 5, 6, 15)).toEqual({ A: 8, B: 19, s: 2 });
+    });
+
+    test("should produce the same shared secret for both parties", () => {
+        const result = diffieHellman(23, 5, 6, 15);
+        expect(result!.s).toBe(2);
+    });
+
+    test("should work with different parameters", () => {
+        expect(diffieHellman(29, 2, 4, 10)).toEqual({ A: 16, B: 9, s: 7 });
+    });
+
+    test("should handle minimal valid values", () => {
+        expect(diffieHellman(5, 2, 1, 1)).toEqual({
+            A: 2,
+            B: 2,
+            s: 2
+        });
+    });
+
+    test("should handle large exponents", () => {
+        const result = diffieHellman(23, 5, 123, 456);
+        expect(result!.A).toBeDefined();
+        expect(result!.B).toBeDefined();
+        expect(result!.s).toBeDefined();
+    });
+
+    test("should return equal public keys when private keys are equal", () => {
+        const result = diffieHellman(23, 5, 7, 7);
+        expect(result!.A).toBe(result!.B);
+    });
+
+    test("should handle degenerate case when g = 1", () => {
+        const result = diffieHellman(23, 1, 6, 15);
+        expect(result).toEqual({
+            A: 1,
+            B: 1,
+            s: 1
+        });
+    });
+});
