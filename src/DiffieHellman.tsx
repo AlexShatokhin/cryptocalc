@@ -77,7 +77,7 @@ export const DiffieHellman = () => {
                     setActiveChip={setOpenKeyActiveChip} 
                     onChangeP={handleOpenKeyPChange} 
                     onChangeG={handleOpenKeyGChange} />
-                <div className="text-xl flex gap-2 flex-col">
+                <div className="text-xl flex gap-2 flex-col mt-2">
                     <p className="h-8">p = {openKeyActiveChip === "0" ? 
                         <Input 
                             className="w-20 text-center"
@@ -96,14 +96,14 @@ export const DiffieHellman = () => {
                     </p>
                 </div>
             </div>    
-            <div className="mt-2">
+            <div className="mt-6">
                 <SecretKeyChips
                     title="Параметры закрытых ключей"
                     chip={secretKeyActiveChip}
                     setActiveChip={setSecretKeyActiveChip} 
                     onChangeA={handleSecretKeyAChange} 
                     onChangeB={handleSecretKeyBChange} />
-                <div className="text-xl flex gap-2 flex-col">
+                <div className="text-xl flex gap-2 flex-col mt-2">
                     <p className="h-8 text-red-400">a = {secretKeyActiveChip === "0" ? 
                         <Input 
                             className="w-20 text-center"
@@ -121,12 +121,8 @@ export const DiffieHellman = () => {
                             onChange={(e) => handleSecretKeyBChange(e.target.value ? parseInt(e.target.value) : null)} /> : secretKeyB}
                     </p>
                 </div>  
-                <Button className="mt-2" onClick={handleCalculate}>Вычислить</Button>
+                <Button className="mt-6" onClick={handleCalculate}>Вычислить</Button>
                 {result && <div>{`A: ${result.A}\nB: ${result.B}\ns: ${result.s}`}</div>}
-
-                <div>
-                    Шаг 1
-                </div>
             </div>
         </section>
     )

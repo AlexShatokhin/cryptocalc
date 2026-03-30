@@ -9,7 +9,7 @@ import {
 } from "@/shared/alert-dialog"
 import { useEffect } from "react"
 
-const VERSION = "1.4.1";
+const VERSION = "1.6.0";
 
 interface UpdateDialogProps {
   show: boolean;
@@ -38,11 +38,11 @@ export const UpdateDialog = ({ show, toggleDialog }: UpdateDialogProps) => {
             <div>
                 <span className="block">В новой версии калькулятора:</span> <br />
                 <div>
-                    <p>Операция инверсии перенесена в режим <span className="bg-blue-950 px-2 rounded">x <sup>y</sup> % z</span>. Данный режим теперь поддерживает степень <strong>-1</strong></p>
+                    <p>Добавлен экспериментальный функционал вывода вычисленного значения под полем ввода.</p>
                     <br />
-                    <p>Поля ввода были улучшены. Поля теперь поддерживают математические выражения с использованием операции сложения, вычитания и умножения</p>
+                    <p>Добавлен раздел "Алгоритмы".</p>
                     <br />
-                    <p>Чтобы прочитать обновление еще раз, нажмите на значок информации справа вверху</p>
+                    <p>В разделе "Алгоритмы" добавлен алгоритм Диффи-Хеллмана.</p>
                 </div>
             </div>
           </AlertDialogDescription>
