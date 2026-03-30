@@ -10,9 +10,9 @@ interface DiffieHellmanChipsProps {
 
 
 const PGOptions = [
-    { p: 2, g: 5 },
-    { p: 3, g: 7 },
-    { p: 7, g: 11 },
+    { p: 23, g: 5 },
+    { p: 101, g: 2 },
+    { p: 13, g: 6 },
 ]
 
 
