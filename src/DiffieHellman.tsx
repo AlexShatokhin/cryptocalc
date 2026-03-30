@@ -151,7 +151,7 @@ export const DiffieHellman = () => {
                             onChange={(e) => handleSecretKeyBChange(e.target.value ? parseInt(e.target.value) : null)} /> : secretKeyB}
                     </p>
                 </div>  
-                <Button className="mt-6" onClick={handleCalculate}>Вычислить</Button>
+                <Button disabled={isAnimating} className="mt-6" onClick={handleCalculate}>Вычислить</Button>
                 {display && (
                     <div className="mt-6 p-4 rounded-2xl bg-zinc-900 border border-zinc-800 shadow-sm">
                         <h2 className="text-lg font-semibold mb-3">

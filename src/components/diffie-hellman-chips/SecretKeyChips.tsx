@@ -12,7 +12,7 @@ interface DiffieHellmanChipsProps {
 const ABOptions = [
     { a: 6, b: 15 },
     { a: 36, b: 58 },
-    { a: 3, b: 4 },
+    { a: 321, b: 654 },    
 ]
 
 

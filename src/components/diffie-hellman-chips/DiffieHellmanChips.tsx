@@ -12,7 +12,7 @@ interface DiffieHellmanChipsProps {
 const PGOptions = [
     { p: 23, g: 5 },
     { p: 101, g: 2 },
-    { p: 13, g: 6 },
+    {p: 2029, g: 5},
 ]
 
 
